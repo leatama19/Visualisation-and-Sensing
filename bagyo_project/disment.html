@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Activity - Bagyo</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="disment.html">Activity</a>
+    <a href="graph.html">Summary</a>
+</nav>
+
+<section class="activity-page">
+
+    <div class="title-row">
+        <button class="nav-arrow" onclick="prev()">←</button>
+
+        <div>
+            <h1 id="typhoonName">Typhoon Megi</h1>
+            <p id="yearDisplay">2010</p>
+        </div>
+
+        <button class="nav-arrow" onclick="next()">→</button>
+    </div>
+
+    <div class="impact-card">
+
+        <div class="metric">
+            <p>Wind Speed</p>
+            <div class="bar">
+                <div class="fill wind-fill" id="windBar"></div>
+            </div>
+            <span id="windText"></span>
+        </div>
+
+        <div class="metric">
+            <p>Deaths</p>
+            <div class="bar">
+                 <div class="fill death-fill" id="deathBar"></div>
+            </div>
+            <span id="deathText"></span>
+        </div>
+
+        <div class="metric">
+            <p>Damage</p>
+            <div class="bar">
+                <div class="fill damage-fill" id="damageBar"></div>
+            </div>
+            <span id="damageText"></span>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+const typhoons = [
+  { name: "Megi", year: 2010, wind: 225, deaths: 167, damage: 4.8 },
+  { name: "Washi", year: 2011, wind: 100, deaths: 1249, damage: 1.455 },
+  { name: "Bopha", year: 2012, wind: 260, deaths: 1901, damage: 43 },
+  { name: "Haiyan", year: 2013, wind: 300, deaths: 6300, damage: 530 },
+  { name: "Hagupit", year: 2014, wind: 70, deaths: 21, damage: 0.6 },
+  { name: "Koppu", year: 2015, wind: 250, deaths: 48, damage: 11 },
+  { name: "Haima", year: 2016, wind: 225, deaths: 14, damage: 2.5 },
+  { name: "Tembin", year: 2017, wind: 148, deaths: 142, damage: 2.0 },
+  { name: "Mangkhut", year: 2018, wind: 285, deaths: 127, damage: 33.7 },
+  { name: "Phanfone", year: 2019, wind: 190, deaths: 28, damage: 33 },
+  { name: "Goni", year: 2020, wind: 310, deaths: 25, damage: 48.06 }
+];
+
+let index = 0;
+
+function updateDisplay() {
+    const t = typhoons[index];
+
+    document.getElementById("typhoonName").innerText = "Typhoon " + t.name;
+    document.getElementById("yearDisplay").innerText = t.year;
+
+    // scaled bars (adjusted for visual balance)
+    document.getElementById("windBar").style.width = (t.wind / 3) + "%";
+    document.getElementById("deathBar").style.width = (t.deaths / 70) + "%";
+    document.getElementById("damageBar").style.width = (t.damage / 5) + "%";
+
+    document.getElementById("windText").innerText = t.wind + " km/h";
+    document.getElementById("deathText").innerText = t.deaths;
+    document.getElementById("damageText").innerText = "₱" + t.damage + "B";
+}
+
+function next() {
+    index = (index + 1) % typhoons.length;
+    updateDisplay();
+}
+
+function prev() {
+    index = (index - 1 + typhoons.length) % typhoons.length;
+    updateDisplay();
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>

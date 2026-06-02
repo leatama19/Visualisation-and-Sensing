@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity - Bagyo</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="disment.html">Activity</a>
+    <a href="graph.html">Summary</a>
+</nav>
+
+<section class="graph-section">
+
+    <h1>Analysis of Major Philippine Typhoons (2010–2020)</h1>
+
+    <p class="graph-description">
+        This activity compares major Philippine typhoons from 2010–2020 based on wind speed, fatalities, and max wind speed.
+    </p>
+
+    <div class="graph-buttons">
+        <button onclick="updateChart('deaths')">Deaths</button>
+        <button onclick="updateChart('damage')">Damage</button>
+        <button onclick="updateChart('wind')">Wind Speed</button>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="typhoonChart"></canvas>
+    </div>
+
+</section>
+
+<script>
+
+const labels = [
+    "Megi", "Washi", "Bopha", "Haiyan", "Hagupit",
+    "Koppu", "Haima", "Tembin", "Mangkhut", "Phanfone", "Goni"
+];
+
+const datasets = {
+
+    deaths: [
+    167, 1249, 1901, 6300, 21,
+    48, 14, 142, 127, 28, 25
+],
+
+damage: [
+    4.8, 1.455, 43, 530, 0.6,
+    11, 2.5, 2.0, 33.7, 33, 48.06
+],
+
+wind: [
+    225, 100, 260, 300, 70,
+    220, 225, 148, 285, 190, 310
+]
+};
+
+const ctx = document.getElementById('typhoonChart');
+
+const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Deaths',
+            data: datasets.deaths
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'
+                }
+            }
+        },
+
+        scales: {
+            x: {
+                ticks: {
+                    color: 'white'
+                },
+                grid: {
+                    color: 'rgba(255,255,255,0.1)'
+                }
+            },
+            y: {
+                ticks: {
+                    color: 'white'
+                },
+                grid: {
+                    color: 'rgba(255,255,255,0.1)'
+                }
+            }
+        }
+    }
+});
+
+function updateChart(type) {
+    chart.data.datasets[0].data = datasets[type];
+
+    if (type === 'deaths') {
+        chart.data.datasets[0].label = 'Deaths';
+        chart.data.datasets[0].backgroundColor = '#76555B';
+    }   
+
+    if (type === 'damage') {
+        chart.data.datasets[0].label = 'Damage (₱ Billions)';
+        chart.data.datasets[0].backgroundColor = '#AFAC92';
+
+    }
+
+    if (type === 'wind') {
+        chart.data.datasets[0].label = 'Wind Speed (km/h)';
+         chart.data.datasets[0].backgroundColor = '#FFFFFF';
+    }
+
+    chart.update();
+
+}
+
+</script>
+
+</body>
+</html>

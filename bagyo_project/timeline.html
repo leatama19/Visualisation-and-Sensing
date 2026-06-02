@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline - Bagyo</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="disment.html">Activity</a>
+    <a href="graph.html">Summary</a>
+</nav>
+
+    <section class="timeline">
+
+        <!-- LEFT ARROW -->
+        <button class="arrow" id="prevBtn" onclick="previousYears()">
+            &#10094;
+        </button>
+
+        <div class="timeline-track">
+
+            <div class="timeline-item">
+
+                <div class="year" id="year0"></div>
+
+                <div class="dot"
+                     onclick="showInfo(0)">
+                </div>
+
+                <div class="info" id="info0"></div>
+
+            </div>
+
+            <div class="timeline-item">
+
+                <div class="year" id="year1"></div>
+
+                <div class="dot active"
+                     onclick="showInfo(1)">
+                </div>
+
+                <div class="info active" id="info1"></div>
+
+            </div>
+
+            <div class="timeline-item">
+
+                <div class="year" id="year2"></div>
+
+                <div class="dot"
+                     onclick="showInfo(2)">
+                </div>
+
+                <div class="info" id="info2"></div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT ARROW -->
+        <button class="arrow" id="nextBtn" onclick="nextYears()">
+            &#10095;
+        </button>
+
+    </section>
+
+    <script>
+
+        const timelineData = [
+
+            { year: "2010", title: "Typhoon Megi", text: "This was the strongest tropical cyclone of 2010. It struck Luzon in the northern Philippines, causing widespread damage to buildings and crops, and disrupting power and telecommunications." },
+            { year: "2011", title: "Typhoon Washi", text: "This was a late-season tropical cyclone in 2011 that caused catastrophic damage in the Philippines. It made landfall in Mindanao, a major region in the country." },
+            { year: "2012", title: "Typhoon Bopha", text: "Typhoon Bopha (Pablo) in 2012 was one of the most powerful storms to hit the Philippines, causing severe destruction across Mindanao, including widespread damage to homes, agriculture, and infrastructure." },
+
+            { year: "2013", title: "Typhoon Haiyan", text: "Typhoon Haiyan (Yolanda) struck the Philippines on 8 November 2013. One of the strongest tropical cyclones ever recorded, it devastated Eastern Visayas, particularly Leyte and Samar, before dissipating on 11 November 2013. " },
+            { year: "2014", title: "Typhoon Hagupit", text: "On 6 December 2014, Typhoon Hagupit made landfall in the Philippines. As a powerful tropical cyclone, it affected Eastern Visayas, Bicol, and Southern Luzon, bringing strong winds and heavy rainfall before dissipating on 11 December 2014." },
+            { year: "2015", title: "Typhoon Koppu", text: "On 18 October 2015, Typhoon Koppu struck Northern Luzon and moved slowly across the region. The storm brought prolonged heavy rainfall and severe flooding to several provinces before weakening and dissipating on 24 October 2015. " },
+
+            { year: "2016", title: "Typhoon Haima", text: "On 19 October 2016, Super Typhoon Haima made landfall in Cagayan, Northern Luzon. One of the strongest storms of the year, it brought destructive winds before dissipating on 21 October 2016. " },
+            { year: "2017", title: "Typhoon Tembin ", text: "On 22 December 2017, Typhoon Tembin moved across Mindanao, triggering severe flooding and landslides in several provinces. It continued westward before dissipating on 26 December 2017. " },
+            { year: "2018", title: "Typhoon Mangkhut", text: "On 15 September 2018, Typhoon Mangkhut struck Northern Luzon, heavily damaging farming regions, homes, and infrastructure before leaving the Philippines on 16 September 2018. " },
+
+            { year: "2019", title: "Typhoon Phanfone", text: "On 24 December 2019, Typhoon Phanfone (Ursula) struck the central Philippines, affecting the Visayas region and causing damage to homes, infrastructure, and coastal communities before dissipating on 28 December 2019. " },
+            { year: "2020", title: "Typhoon Goni", text: "On 1 November 2020, Super Typhoon Goni struck the Bicol Region with record-breaking winds. It left widespread damage across communities and agricultural areas as it moved across Luzon. " },
+            { year: "2021", title: "Typhoon Rai", text: "On 16 December 2021, Typhoon Rai made landfall in the Philippines, affecting parts of Visayas and Mindanao. The storm caused widespread power outages and significant damage to homes and infrastructure as it crossed the country. " },
+
+            { year: "2022", title: "Typhoon Noru", text: "On 25 September 2022, Typhoon Noru made landfall in Quezon Province after rapidly intensifying into a super typhoon. Its powerful winds caused widespread damage to infrastructure, agriculture, and coastal communities across Luzon. " },
+            { year: "2023", title: "Typhoon Doksuri", text: "On 26 July 2023, Typhoon Doksuri made landfall in Northern Luzon, affecting the Ilocos and Cagayan regions with strong winds and heavy rainfall before leaving the Philippines on 27 July 2023. " },
+            { year: "2024", title: "Typhoon Yagi", text: "On 2 September 2024, Typhoon Yagi reached the Philippines through Aurora Province. The storm brought heavy rainfall and strong winds to Central and Northern Luzon, highlighting the continued threat of typhoons in recent years. " }
+
+        ];
+
+        let currentGroup = 0;
+
+        function loadYears() {
+
+            const start = currentGroup * 3;
+
+            for (let i = 0; i < 3; i++) {
+
+                const data = timelineData[start + i];
+
+                document.getElementById(`year${i}`).textContent =
+                    data.year;
+
+                document.getElementById(`info${i}`).innerHTML =
+                    `<h3>${data.title}</h3>
+                     <p>${data.text}</p>`;
+            }
+
+            showInfo(1);
+
+            document.getElementById("prevBtn").style.visibility =
+                currentGroup === 0 ? "hidden" : "visible";
+
+            document.getElementById("nextBtn").style.visibility =
+                start + 3 >= timelineData.length
+                    ? "hidden"
+                    : "visible";
+        }
+
+        function showInfo(index) {
+
+            const dots =
+                document.querySelectorAll('.dot');
+
+            const infos =
+                document.querySelectorAll('.info');
+
+            dots.forEach(dot =>
+                dot.classList.remove('active')
+            );
+
+            infos.forEach(info =>
+                info.classList.remove('active')
+            );
+
+            dots[index].classList.add('active');
+            infos[index].classList.add('active');
+        }
+
+        function nextYears() {
+
+            if ((currentGroup + 1) * 3 < timelineData.length) {
+
+                currentGroup++;
+                loadYears();
+            }
+        }
+
+        function previousYears() {
+
+            if (currentGroup > 0) {
+
+                currentGroup--;
+                loadYears();
+            }
+        }
+
+        loadYears();
+
+    </script>
+
+</body>
+</html>
